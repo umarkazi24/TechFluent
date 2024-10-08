@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+  <!-- footer section -->
+  <footer class="footer_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 footer-col">
+          <div class="footer_contact">
+            <h4>
+              Contact Us
+            </h4>
+            <div class="contact_link_box">
+              <a href="">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Location
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call +01 4694325028
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  umarkazi54@gmail.com
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <div class="footer_detail">
+            <a href="" class="footer-logo">
+              Tech Fluent
+            </a>
+            <p>
+              Empowering Through Digital Fluency!
+            </p>
+            <div class="footer_social">
+              <a href="https://www.facebook.com/profile.php?id=100006569297868">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+              </a>
+              <a href="https://x.com/umarkazi24">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/umarkazi/">
+                <i class="fa fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a href="https://www.instagram.com/stories/umarkazi24/">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-pinterest" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <h4>
+            Opening Hours
+          </h4>
+          <p>
+            Everyday
+          </p>
+          <p>
+            10.00 Am -10.00 Pm
+          </p>
+        </div>
+      </div>
+      <div class="footer-info">
+        <p>
+          &copy; <span id="displayYear"></span> All Rights Reserved By
+          <a href="https://html.design/">Free Html Templates</a><br><br>
+          &copy; <span id="displayYear"></span> Distributed By
+          <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+        </p>
+      </div>
+    </div>
+    <!-- jQery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- popper js -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+      </script>
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.js"></script>
+    <!-- owl slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+    </script>
+    <!-- isotope js -->
+    <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <!-- custom js -->
+    <script src="js/custom.js"></script>
+    <!--Text Editor -->
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.1/ckeditor5.css" />
+    
+    <script type="importmap">
+      {
+          "imports": {
+              "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.1.1/ckeditor5.js",
+              "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.1.1/"
+          }
+      }
+  </script>
+    <script type="module">
+      import {
+        ClassicEditor,
+        Essentials,
+        Bold,
+        Italic,
+        Font,
+        Paragraph,
+        Heading,
+        List,
+        Link,
+        Image,
+        ImageToolbar,
+        ImageCaption,
+        ImageStyle,
+        ImageResize,
+        ImageUpload,  // Ensure this plugin is added for uploading images
+        MediaEmbed,
+        Table,
+        TableToolbar,
+        BlockQuote,
+        Alignment
+      } from 'ckeditor5';
+
+      ClassicEditor
+        .create(document.querySelector('#editor'), {
+          plugins: [
+            Essentials, Bold, Italic, Font, Paragraph, Heading, List, Link,
+            Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageUpload,
+            MediaEmbed, Table, TableToolbar, BlockQuote, Alignment
+          ],
+          toolbar: [
+             'heading', '|',  'bold', 'italic', 'link','bulletedList', 'numberedList', '|', 'undo', 'redo', '|',
+            'alignment:left', 'alignment:right', '|', 'imageUpload', 'blockQuote', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+            '|', 'mediaEmbed', 'insertTable', '|', 'alignment:center', 'alignment:justify'
+          ],
+          heading: {
+            options: [
+              { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+              { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+              { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+              { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+            ]
+          },
+          image: {
+            toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+            styles: ['full', 'side'],
+            resizeUnit: 'px'
+          },
+          table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+          },
+          alignment: {
+            options: ['left', 'right', 'center', 'justify']  // Enable left, right, center, and justify alignment
+          }
+        })
+        .then( /* ... */)
+        .catch( /* ... */);
+    </script>
+  </footer>
+  <!-- footer section -->
+</body>
+
+</html>
