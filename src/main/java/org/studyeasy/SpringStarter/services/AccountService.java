@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -26,8 +26,8 @@ import org.studyeasy.SpringStarter.util.constants.Roles;
 public class AccountService implements UserDetailsService {
 
 
-   @Value("/resources/static/**")
-   private String photo_prefix; 
+//    @Value("/resources/static/**")
+//    private String photo_prefix; 
 
     @Autowired
     private AccountRepository accountRepository; // Repository for performing CRUD operations on Account entities.
@@ -45,7 +45,8 @@ public class AccountService implements UserDetailsService {
             account.setRole(Roles.USER.getRole());          // Sets the default role of the account to 'USER' if not already defined.        
         }
         if(account.getPhoto() == null){
-            String path = photo_prefix.replace("**", "images/person.png");
+            //String path = photo_prefix.replace("**", "images/person.png");
+            String path = "/images/person.png";
             account.setPhoto(path);          // Sets the default role of the account to 'USER' if not already defined.        
         }               
         
