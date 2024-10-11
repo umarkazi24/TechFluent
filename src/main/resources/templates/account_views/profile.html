@@ -42,6 +42,7 @@
              th:object="${account}" 
              method="post">
               <div>
+                <input type="hidden" id="id" , name ="id" th:field="*{id}" />
                 <input id="email" name="email" type="email" th:field="*{email}" class="form-control" placeholder="Email" required/>
                 <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert">Email Error</p>
               </div>
@@ -69,8 +70,8 @@
               <div>
                 <select id="gender" name="gender" th:field="*{gender}" class="form-control">
                   <option value="Male">Male</option>
-                  <option value="Male">Female</option>
-                  <option value="Male">Others</option>
+                  <option value="Female">Female</option>
+                  <option value="Others">Others</option>
                 </select>
                 <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="alert alert-danger" role="alert">Gender Error</p>
               </div>

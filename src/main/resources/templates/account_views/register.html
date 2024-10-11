@@ -52,8 +52,8 @@
               <div>
                 <select id="gender" name="gender" th:field="*{gender}" class="form-control">
                   <option value="Male">Male</option>
-                  <option value="Male">Female</option>
-                  <option value="Male">Others</option>
+                  <option value="Female">Female</option>
+                  <option value="Others">Others</option>
                 </select>
                 <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="alert alert-danger" role="alert">Gender Error</p>
               </div>
