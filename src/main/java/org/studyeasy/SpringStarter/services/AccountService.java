@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,6 +16,7 @@ import org.studyeasy.SpringStarter.models.Account;
 import org.studyeasy.SpringStarter.models.Authority;
 import org.studyeasy.SpringStarter.repositories.AccountRepository;
 import org.studyeasy.SpringStarter.util.constants.Roles;
+
 
 /**
  * Service class for managing user accounts.
@@ -31,6 +31,7 @@ public class AccountService implements UserDetailsService {
 
     @Autowired
     private AccountRepository accountRepository; // Repository for performing CRUD operations on Account entities.
+
 
     @Autowired 
     private PasswordEncoder passwordEncoder; // Encoder for hashing passwords before storage.

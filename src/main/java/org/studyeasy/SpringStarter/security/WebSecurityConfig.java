@@ -19,6 +19,7 @@ public class WebSecurityConfig {
     private static final String[] WHITELIST = {
             "/", "/login", "/register", "/js/**", "/css/**", "/fonts/**", "/images/**",
             "/resources/static/**",
+            "/forgot-password", "/reset-password", "/change-password",
             "/db-console/**"
     };
 
@@ -41,7 +42,8 @@ public class WebSecurityConfig {
                         .permitAll())
                 .logout(lOut -> lOut
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/"));
+                        .logoutSuccessUrl("/"))
+                        .rememberMe(rememberMe->rememberMe.rememberMeParameter("remember-me"));
 
         // remove after upgrading the db from h2 file db
         http.httpBasic(Customizer.withDefaults());

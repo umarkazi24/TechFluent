@@ -1,6 +1,7 @@
 package org.studyeasy.SpringStarter.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,48 +24,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Represents a user account in the system.
- * This entity is mapped to the "accounts" table in the database.
- */
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class Account {
 
-    /**
-     * Unique identifier for the account.
-     * Automatically generated using a sequence strategy.
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    /**
-     * Email address of the account holder.
-     * This should be unique for each account.
-     */
+
     @Email(message = "Invalid email")
     @NotEmpty(message = "Email missing")
     private String email;
 
-    /**
-     * Password for the account.
-     * It should be securely hashed before storage.
-     */
+
     @NotEmpty(message = "Password missing")
     private String password;
 
-    /**
-     * First name of the account holder.
-     */
     @NotEmpty(message = "First Name missing")
     private String firstname;
 
-    /**
-     * Last name of the account holder.
-     */
     @NotEmpty(message = "Last Name missing")
     private String lastname;
 
@@ -79,26 +61,29 @@ public class Account {
 
     private String photo;
 
-    /**
-     * Role assigned to the account (e.g., USER, ADMIN).
-     * This can be used to determine access levels in the application.
-     */
+
     private String role;
 
-    /**
-     * List of posts associated with this account.
-     * This represents a one-to-many relationship with the Post entity.
-     */
     @OneToMany(mappedBy = "account")
     private List<Post> posts;
 
-    /**
-     * Set of authorities granted to this account.
-     * This represents a many-to-many relationship with the Authority entity.
-     */
+   
+    private String password_reset_token;
+
+    private LocalDateTime password_reset_token_expiry;
+
+
     @ManyToMany
-    @JoinTable(name = "account_authority", joinColumns = {
-            @JoinColumn(name = "account_id", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "authority_id", referencedColumnName = "id") })
+    @JoinTable(
+        name = "account_authority",
+        joinColumns = {@JoinColumn(name = "account_id", referencedColumnName = "id") },
+        inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id") })
+
     private Set<Authority> authorities = new HashSet<>();
+
+    public String toString(){
+        return "Account [id=" + id + ", email=" + email + ", password=" + password + ", firstname=" + firstname
+        + ", lastname=" + lastname + ", role=" + role + ", posts=" + posts + ", authorities=" + authorities
+        + "]";
+    }
 }

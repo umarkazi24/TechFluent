@@ -7,6 +7,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -25,6 +26,7 @@ import org.studyeasy.SpringStarter.services.AccountService;
 import org.studyeasy.SpringStarter.util.constants.AppUtil;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 
 import jakarta.validation.Valid;
 
@@ -38,6 +40,13 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Value("${password.token.reset.timeout.minutes}")
+    private int password_token_timeout;
+
+    //@Autowired
+    //private AppProperties appProperties;
+
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -83,7 +92,8 @@ public class AccountController {
 
     @PostMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    public String post_profile(@Valid @ModelAttribute Account account, BindingResult bindingResult, Principal principal) {
+    public String post_profile(@Valid @ModelAttribute Account account, BindingResult bindingResult,
+            Principal principal) {
         if (bindingResult.hasErrors()) {
             return "account_views/profile";
         }
@@ -92,7 +102,7 @@ public class AccountController {
             authUser = principal.getName();
         }
         Optional<Account> optionalAccount = accountService.findOneByEmail(authUser);
-        if(optionalAccount.isPresent()){
+        if (optionalAccount.isPresent()) {
 
             Account account_by_id = accountService.findById(account.getId()).get();
             account_by_id.setAge(account.getAge());
@@ -106,19 +116,20 @@ public class AccountController {
             SecurityContextHolder.clearContext();
             return "redirect:/logout";
 
-        }else{
+        } else {
             return "redirect:/?error";
         }
-        
+
     }
 
     @PostMapping("/update_photo")
     @PreAuthorize("isAuthenticated()")
-    public String update_photo(@RequestParam("file") MultipartFile file, RedirectAttributes attributes, Principal principal){
-        if(file.isEmpty()){
+    public String update_photo(@RequestParam("file") MultipartFile file, RedirectAttributes attributes,
+            Principal principal) {
+        if (file.isEmpty()) {
             attributes.addFlashAttribute("error", "No File Uploaded");
             return "redirect:/profile";
-        }else{
+        } else {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
             try {
@@ -134,14 +145,14 @@ public class AccountController {
                 Path path = Paths.get(absolute_fileLocation);
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 attributes.addFlashAttribute("message", "Upload Successful");
-                
+
                 String authUser = "email";
                 if (principal != null) {
-                authUser = principal.getName();
+                    authUser = principal.getName();
                 }
 
                 Optional<Account> optional_Account = accountService.findOneByEmail(authUser);
-                if(optional_Account.isPresent()){
+                if (optional_Account.isPresent()) {
                     Account account = optional_Account.get();
                     Account account_by_id = accountService.findById(account.getId()).get();
                     String relative_fileLocation = "uploads/" + final_photo_name;
@@ -162,5 +173,26 @@ public class AccountController {
         return "redirect:/profile?error";
     }
 
+    @GetMapping("/forgot-password")
+    public String forgot_password(Model model) {
+        return "account_views/forgot_password";
+    }
 
+    @PostMapping("/reset-password")
+    public String reset_password(@RequestParam("email") String _email, RedirectAttributes attributes, Model model) {
+        Optional<Account> optional_account = accountService.findOneByEmail(_email);
+        if (optional_account.isPresent()) {
+            Account account = accountService.findById(optional_account.get().getId()).get();
+            String reset_token = UUID.randomUUID().toString();
+            account.setPassword_reset_token(reset_token);
+            account.setPassword_reset_token_expiry(LocalDateTime.now().plusMinutes(password_token_timeout));
+            accountService.save(account);
+            attributes.addFlashAttribute("message", "Password reset email sent");
+            return "redirect:/login";
+            
+        } else {
+            attributes.addFlashAttribute("error", "No user found with the email provided");
+            return "redirect:/forgot-password";
+        }
+    }
 }
