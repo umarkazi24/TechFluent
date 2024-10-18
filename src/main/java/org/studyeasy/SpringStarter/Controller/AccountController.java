@@ -5,6 +5,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,19 +23,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.studyeasy.SpringStarter.models.Account;
-import org.studyeasy.SpringStarter.services.AccountService;
-import org.studyeasy.SpringStarter.util.constants.AppUtil;
-
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
-
-import jakarta.validation.Valid;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.studyeasy.SpringStarter.models.Account;
+import org.studyeasy.SpringStarter.services.AccountService;
+import org.studyeasy.SpringStarter.services.EmailService;
+import org.studyeasy.SpringStarter.util.constants.AppUtil;
+import org.studyeasy.SpringStarter.util.email.EmailDetails;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class AccountController {
@@ -41,11 +41,14 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private EmailService emailService;
+
     @Value("${password.token.reset.timeout.minutes}")
     private int password_token_timeout;
 
-    //@Autowired
-    //private AppProperties appProperties;
+
+
 
 
     @GetMapping("/register")
@@ -187,6 +190,12 @@ public class AccountController {
             account.setPassword_reset_token(reset_token);
             account.setPassword_reset_token_expiry(LocalDateTime.now().plusMinutes(password_token_timeout));
             accountService.save(account);
+            String reset_message = "This is the reset password link: http://localhost/reset-password?token" + reset_token;
+            EmailDetails emailDetails = new EmailDetails(account.getEmail(), reset_message, "Reset password TechFluent Demo");
+            if(emailService.sendSimpleEmail(emailDetails) == false){
+                attributes.addFlashAttribute("message", "Error while sending email, contact admin");
+                return "redirect:/forgot-password";
+            }
             attributes.addFlashAttribute("message", "Password reset email sent");
             return "redirect:/login";
             

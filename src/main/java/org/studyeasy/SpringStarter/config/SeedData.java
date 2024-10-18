@@ -52,7 +52,7 @@ public class SeedData implements CommandLineRunner {
         account01.setDate_of_birth(LocalDate.parse("1990-01-01"));
         account01.setGender("Male");
 
-        account02.setEmail("admin@admin.com");
+        account02.setEmail("jimbrowny25@gmail.com");
         account02.setPassword("pass987");
         account02.setFirstname("Admin");
         account02.setLastname("lastname");
