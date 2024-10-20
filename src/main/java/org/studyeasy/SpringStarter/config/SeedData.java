@@ -91,7 +91,7 @@ public class SeedData implements CommandLineRunner {
         accountService.save(account03);
         accountService.save(account04);
 
-        List<Post> posts = postService.getAll();
+        List<Post> posts = postService.findAll();
         if (posts.size() == 0) {
             Post post01 = new Post();
             post01.setTitle("Post 1");
@@ -130,6 +130,13 @@ public class SeedData implements CommandLineRunner {
             post05.setBody("Spring Security is a powerful framework for securing Spring applications. It provides features " + "for authentication, authorization, and more. Here's a breakdown of Spring Security's key " + "components: " + "- SecurityContextHolder: Stores the current user's security context. " + "- AuthenticationManager: Responsible for user authentication. " + "- Authentication: Represents the authenticated user and their authorities. " + "- Authorization: Determines whether a user has permission to perform a specific operation. " + "(Detailed explanations of each component can be added here)" + "Principles\n" + "There were five primary goals in the creation of the Java language:[17]\n" + "\n" + "It must be simple, object-oriented, and familiar.\n" + "It must be robust and secure.\n" + "It must be architecture-neutral and portable.\n" + "It must execute with high performance.\n" + "It must be interpreted, threaded, and dynamic.\n" + "Versions\n" + "Main article: Java version history\n" + "As of September 2023, Java 8, 11, 17 and 21 are supported as Long-Term Support (LTS) versions.[38]\n" + "\n" + "Oracle released the last zero-cost public update for the legacy version Java 8 LTS in January 2019 for commercial use, although it will otherwise still support Java 8 with public updates for personal use indefinitely. Other vendors such as Adoptium continue to offer free builds of OpenJDK's Long-Term Support (LTS) versions. These builds may include additional security patches and bug fixes.[39]");
             post05.setAccount(account02);
             postService.save(post05);
+
+            Post post06 = new Post();
+            post06.setTitle("Sixth post");
+            post06.setBody("This is the sixth post!");
+            post06.setAccount(account02);
+            postService.save(post06);
+
 
         }
         
