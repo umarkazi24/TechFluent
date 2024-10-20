@@ -54,7 +54,7 @@ Username: user@user.com
 Password: pass987
 
 Database Configuration
-The project uses H2 Database for development and testing. To view the database console, navigate to http://localhost:8080/h2-console and use the following credentials:
+The project uses H2 Database for development and testing. To view the database console, navigate to http://localhost:8080/db-console and use the following credentials:
 
 (Navigate to application.properties to change to your own preferred DB Username and Password)
 JDBC URL: jdbc:h2:mem:testdb
